@@ -10,22 +10,10 @@ This project is a backend service to handle the crud operations on an Item
 4. Run following command in terminal from the root of your project
 
 ```
-npm install
-```
-
-or
-
-```
 yarn install
 ```
 
-Then
-
-5. `````
-       npm run dev
-       ````
-   or
-   `````
+# Start the server
 
 ```
 yarn run dev
