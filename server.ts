@@ -1,5 +1,6 @@
 import app from "./app.js";
 import { connect } from "./db";
+
 const port = process.env.PORT;
 
 app.get("/", (req, res) => {

@@ -1,11 +1,13 @@
-import Item from "./item.model";
 import { Request, Response } from "express";
-import { ITEM_TYPES } from "../../utils/constants";
 import mongoose from "mongoose";
+
+import Item from "./item.model";
+import { ITEM_TYPES } from "../../utils/constants";
 
 export const createItem = async (req: Request, res: Response) => {
   try {
     const { type, description, date, title } = req.body;
+
     const newItem = await Item.create({
       type,
       description,
@@ -21,18 +23,18 @@ export const createItem = async (req: Request, res: Response) => {
 
 export const getAllItems = async (req: Request, res: Response) => {
   try {
-    const { page, limit } = req.query;
-    const pageNo = parseInt(page as string) - 1 || 0;
-    const max = parseInt(limit as string) || 5;
+    const { page: currentPage, limit } = req.query;
+    const page = parseInt(currentPage as string) - 1 || 0;
+    const perPage = parseInt(limit as string) || 10;
 
     const items = await Item.find()
-      .skip(pageNo * max)
-      .limit(max)
+      .skip(page * perPage)
+      .limit(perPage)
       .sort({ createdAt: "desc" });
 
     const totalCount = await Item.countDocuments();
 
-    return res.status(200).json({ items, totalCount });
+    return res.status(200).json({ items, totalCount, page, perPage });
   } catch (error: any) {
     return res.status(500).json(error);
   }
@@ -95,7 +97,7 @@ export const updateItem = async (req: Request, res: Response) => {
     );
 
     if (!item) {
-      res.status(400).send("Item not found");
+      res.status(404).send("Item not found");
     }
 
     return res.status(200).json(item);

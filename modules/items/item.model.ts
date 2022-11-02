@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+
 import { ITEM_TYPES } from "../../utils/constants";
 import { IItem } from "./item.types";
 
