@@ -27,7 +27,8 @@ export const getAllItems = async (req: Request, res: Response) => {
 
     const items = await Item.find()
       .skip(pageNo * max)
-      .limit(max);
+      .limit(max)
+      .sort({ createdAt: "desc" });
 
     const totalCount = await Item.countDocuments();
 
